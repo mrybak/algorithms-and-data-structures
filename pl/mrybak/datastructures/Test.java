@@ -2,6 +2,7 @@ package pl.mrybak.datastructures;
 
 public class Test {
   public static void main(String[] args) {
+    // basic linked list operations
     SinglyLinkedList<Integer> l1 = new SinglyLinkedList<>();
   
     l1.append(2);
@@ -25,5 +26,15 @@ public class Test {
     System.out.println(l1.size());
     System.out.println(l1.contains(4));
     System.out.println(l1);
+    
+    // can be used as stack
+    SinglyLinkedList<String> stack = new SinglyLinkedList<>();
+    stack.push("foo");
+    stack.push("bar");
+    stack.push("baz");
+    System.out.println(stack);
+    System.out.println(stack.pop());
+    System.out.println(stack.pop());
+    System.out.println(stack.pop());    
   }
 }

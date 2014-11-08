@@ -18,6 +18,9 @@ public class SinglyLinkedList<T> {
   
   
   
+  /**
+   * Appends elem to the end of this list 
+   */
   public void append(T elem) {
     Node<T> newNode = new Node<T>(elem);
       if (empty()) {
@@ -34,6 +37,25 @@ public class SinglyLinkedList<T> {
     size++;
   }   
   
+  /**
+   * Push onto stack represented by this list
+   */
+  public void push(T elem) {
+    Node<T> newNode = new Node<T>(elem);
+    newNode.next = head;
+    head = newNode;
+    size++;
+  }
+  
+  /**
+   * Pop from stack represented by this list
+   */ 
+  public T pop() {
+    T value = head.value;
+    head = head.next;
+    size--;
+    return value;
+  } 
   
   
   private boolean equal(T value, Object o) {
