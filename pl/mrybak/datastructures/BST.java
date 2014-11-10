@@ -49,6 +49,13 @@ public class BST<T extends Comparable<T>> {
   // TODO
   // public void delete(T elem) {};  -> findSuccessor(Node)
   
+  public T findMin() {
+    return findMin(this);
+  }
+  
+  private T findMin(BST<T> tree) {
+    return tree.left == null ? tree.value : findMin(tree.left);
+  }
   
   /**
     * Below: BST traversal methods 

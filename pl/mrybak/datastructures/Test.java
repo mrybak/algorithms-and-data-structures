@@ -51,6 +51,8 @@ public class Test {
     System.out.println("h = " + bst.height());
     bst.insert(3);
     System.out.println("==/");
+    System.out.println("MIN: " + bst.findMin());
+    
     System.out.println(bst.contains(4));
     System.out.println(bst.contains(6));
     System.out.println("===");
