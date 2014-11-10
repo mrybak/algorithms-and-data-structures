@@ -55,13 +55,13 @@ public class Test {
     
     System.out.println(bst.contains(4));
     System.out.println(bst.contains(6));
-    System.out.println("===");
+    System.out.println("=== Pre ===");
     bst.enumeratePreOrder();
-    System.out.println("===");
+    System.out.println("=== In ===");
     bst.enumerateInOrder();
-    System.out.println("===");
+    System.out.println("=== Post ===");
     bst.enumeratePostOrder();
-    System.out.println("===");
+    System.out.println("=== BFS ===");
     bst.enumerateBFS();
   }
 }

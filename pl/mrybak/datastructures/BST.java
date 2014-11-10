@@ -2,42 +2,82 @@ package pl.mrybak.datastructures;
 
 /**
   * There are two approaches for implementing a tree, either using nested Node class or not.
-  * Code below does not use Node class. This is for learning purposes (i.e discovering differences b'ween two approaches)
+  * Code below now uses Node class. This is for learning purposes (i.e discovering differences b'ween two approaches)
   */
 public class BST<T extends Comparable<T>> {
   
-  T value;
-  BST<T> left;
-  BST<T> right;
+  Node<T> root;
   
-  public void insert(T elem) {
-    if (value == null) { value = elem; return; } // new tree     
-    if (elem.compareTo(value) == 0) { return; }  // do not allow duplicates
+  private static class Node<T> {
+    private T value;
+    private Node<T> left, right;
     
-    BST<T> newNode = new BST<T>(); 
-    newNode.value = elem; 
-    
-    if (elem.compareTo(value) < 0) {
-	if (left == null) { left = newNode; } else { left.insert(elem); }
-    } else {
-	if (right == null) { right = newNode; } else { right.insert(elem); }
+    public Node(T elem) {
+      this.value = elem;
     }
-  };
-  
-  public boolean contains(T elem) {
-    if (value == null) { return false; }  // do not accept null elems
-    if (value.compareTo(elem) == 0) { return true; }
     
-    return (left != null && left.contains(elem))
-	|| (right != null && right.contains(elem));
+    public Node(T elem, Node<T> left, Node<T> right) {
+      this.value = elem;
+      this.left = left;
+      this.right = right;
+    }
+  }  
+  
+  /**
+    * Insert elem into tree; duplicates are not allowed
+    */
+  public void insert(T elem) {
+    root = insert(root, elem);
+  }
+  
+  private Node<T> insert(Node<T> tree, T elem) {
+    if (tree == null) {
+      return new Node<T>(elem);
+    }
+    
+    int compResult = tree.value.compareTo(elem);
+    if (compResult > 0) {
+      tree.left = insert(tree.left, elem); 
+    }
+    if (compResult < 0) {
+      tree.right = insert(tree.right, elem); 
+    }  
+    
+    return tree;
   };
   
   
+  /**
+    * Check if elem is in this tree
+    */
+  public boolean contains(T elem) {
+    return contains(root, elem);
+  }
+  
+  private boolean contains(Node<T> tree, T elem) {
+    if (tree == null) return false;
+    
+    int compResult = tree.value.compareTo(elem);
+    
+    if (compResult > 0) {
+      return contains(tree.left, elem);
+    }
+    if (compResult < 0) {
+      return contains(tree.right, elem);
+    }  
+    
+    return true;
+  };
+  
+  
+  /**
+    * Get height of this tree
+    */
   public int height() {
-    return height(this);
+    return height(root);
   };
   
-  private int height(BST<T> tree) {
+  private int height(Node<T> tree) {
     if (tree == null) return 0;
     return 1 + Math.max(height(tree.left), height(tree.right)); 
   }
@@ -50,41 +90,62 @@ public class BST<T extends Comparable<T>> {
   // public void delete(T elem) {};  -> findSuccessor(Node)
   
   public T findMin() {
-    return findMin(this);
+    return root == null ? null : findMin(root);
   }
   
-  private T findMin(BST<T> tree) {
-    return tree.left == null ? tree.value : findMin(tree.left);
+  private T findMin(Node<T> tree) {
+    return tree.left == null ? 
+	tree.value : 
+	findMin(tree.left);
   }
   
   /**
     * Below: BST traversal methods 
     */
+    
   public void enumeratePreOrder() {
-    System.out.println(value);
-    if (left != null) left.enumeratePreOrder();
-    if (right != null) right.enumeratePreOrder();
+    enumeratePreOrder(root);
   };
   
+  private void enumeratePreOrder(Node<T> tree) {
+    if (tree != null) {
+      System.out.println(tree.value);
+      enumeratePreOrder(tree.left);
+      enumeratePreOrder(tree.right);
+    }
+  };
   
   public void enumerateInOrder() {
-    if (left != null) left.enumerateInOrder();
-    System.out.println(value);
-    if (right != null) right.enumerateInOrder();
+    enumerateInOrder(root);
+  };
+  
+  private void enumerateInOrder(Node<T> tree) {
+    if (tree != null) {
+      enumerateInOrder(tree.left);
+      System.out.println(tree.value);
+      enumerateInOrder(tree.right);
+    }
   };
   
   public void enumeratePostOrder() {
-    if (left != null) left.enumeratePostOrder();
-    if (right != null) right.enumeratePostOrder();
-    System.out.println(value);
-  }
+    enumeratePostOrder(root);
+  };
+  
+  private void enumeratePostOrder(Node<T> tree) {
+    if (tree != null) {
+      enumeratePostOrder(tree.left);
+      enumeratePostOrder(tree.right);
+      System.out.println(tree.value);
+    }
+  };
+  
   
   public void enumerateBFS() {
-    SinglyLinkedList<BST<T>> queue = new SinglyLinkedList<>();
-    queue.append(this);
+    SinglyLinkedList<Node<T>> queue = new SinglyLinkedList<>();
+    queue.append(root);
     
     while(!queue.empty()) {
-      BST<T> node = queue.pop();
+      Node<T> node = queue.pop();
       System.out.println(node.value);
       if (node.left != null) { queue.append(node.left); }
       if (node.right != null) { queue.append(node.right); }
