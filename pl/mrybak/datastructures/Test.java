@@ -39,11 +39,16 @@ public class Test {
     
     BST<Integer> bst = new BST<>();
     System.out.println(bst.contains(null));
-    bst.insert(5);
+    bst.insert(5);    
+    System.out.println("h = " + bst.height());
     bst.insert(2);
+    System.out.println("h = " + bst.height());
     bst.insert(1);
+    System.out.println("h = " + bst.height());
     bst.insert(4);
+    System.out.println("h = " + bst.height());
     bst.insert(3);
+    System.out.println("h = " + bst.height());
     bst.insert(3);
     System.out.println("==/");
     System.out.println(bst.contains(4));
