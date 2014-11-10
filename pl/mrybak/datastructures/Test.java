@@ -36,5 +36,25 @@ public class Test {
     System.out.println(stack.pop());
     System.out.println(stack.pop());
     System.out.println(stack.pop());    
+    
+    BST<Integer> bst = new BST<>();
+    System.out.println(bst.contains(null));
+    bst.insert(5);
+    bst.insert(2);
+    bst.insert(1);
+    bst.insert(4);
+    bst.insert(3);
+    bst.insert(3);
+    System.out.println("==/");
+    System.out.println(bst.contains(4));
+    System.out.println(bst.contains(6));
+    System.out.println("===");
+    bst.enumeratePreOrder();
+    System.out.println("===");
+    bst.enumerateInOrder();
+    System.out.println("===");
+    bst.enumeratePostOrder();
+    System.out.println("===");
+    bst.enumerateBFS();
   }
 }
