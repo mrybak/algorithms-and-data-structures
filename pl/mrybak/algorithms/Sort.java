@@ -37,7 +37,7 @@ public class Sort {
   public static int[] insertion(int[] a) {
     int len = a.length;
     for (int i = 1; i < len; i++) {
-      for (int j = i-1; (j > 0) && (a[j+1] < a[j]); j--) {
+      for (int j = i-1; (j >= 0) && (a[j+1] < a[j]); j--) {
 	swap(a, j+1, j); 
       }
     }
@@ -45,6 +45,15 @@ public class Sort {
     return a;
   }
   
+  
+  /**
+    * Merge sort
+    */
+  public static int[] merge(int[] a) {
+    // TODO
+    
+    return a;
+  }
   
   
   /**
