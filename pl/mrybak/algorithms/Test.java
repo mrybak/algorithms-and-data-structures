@@ -9,5 +9,6 @@ public class Test {
     System.out.println("unsorted: " + Arrays.toString(arr));
     
     System.out.println("selection sort: " + Arrays.toString(Sort.selection(arr)));
+    System.out.println("insertion sort: " + Arrays.toString(Sort.insertion(arr)));
   }
 }

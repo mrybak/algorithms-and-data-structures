@@ -31,6 +31,21 @@ public class Sort {
     return minIndex;
   } 
   
+  /**
+    * Insertion sort
+    */
+  public static int[] insertion(int[] a) {
+    int len = a.length;
+    for (int i = 1; i < len; i++) {
+      for (int j = i-1; (j > 0) && (a[j+1] < a[j]); j--) {
+	swap(a, j+1, j); 
+      }
+    }
+    
+    return a;
+  }
+  
+  
   
   /**
     * Utility functions
