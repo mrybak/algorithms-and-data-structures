@@ -84,11 +84,78 @@ public class BST<T extends Comparable<T>> {
   
   
   /**
-    * Below: BST node removal
+    * Get node connected with elem (inner usage);
+    * May be useful as public method when key-value nodes are introducted
     */
-  // TODO
-  // public void delete(T elem) {};  -> findSuccessor(Node)
+  private Node<T> get(T elem) {
+    return get(root, elem);
+  }
   
+  private Node<T> get(Node<T> tree, T elem) {
+    if (tree == null) return null;
+      
+    int compResult = tree.value.compareTo(elem);
+    
+    if (compResult > 0) {
+      return get(tree.left, elem);
+    }
+    if (compResult < 0) {
+      return get(tree.right, elem);
+    }  
+    
+    return tree;
+  }
+  
+  
+  /**
+    * Remove elem from this tree
+    */
+  public void delete(T elem) {
+    root = delete(root, elem);
+  }
+  
+  private Node<T> delete(Node<T> tree, T elem) {
+    if (tree == null) {
+      return null;
+    }
+    
+    int compResult = tree.value.compareTo(elem);
+    if (compResult > 0) {
+      tree.left = delete(tree.left, elem); 
+      return tree;
+    }
+    if (compResult < 0) {
+      tree.right = delete(tree.right, elem); 
+      return tree;
+    }  
+    
+    // compResult == 0 so we are in the node we want to delete
+    return deleteRoot(tree);
+  }
+  
+  private Node<T> deleteRoot(Node<T> tree) {
+    if (tree == null || (tree.left == null && tree.right == null)) {
+      return null;
+    }
+    
+    if (tree.left == null && tree.right != null) {
+      return tree.right;
+    }
+    
+    if (tree.right == null && tree.left != null) {
+      return tree.left;
+    }
+    
+    T minValue = findMin(tree.right);
+    tree.right = deleteMin(tree.right);
+    tree.value = minValue;    
+    
+    return tree;
+  }
+  
+  /**
+    * Find or delete minimal element in this tree
+    */
   public T findMin() {
     return root == null ? null : findMin(root);
   }
@@ -98,6 +165,19 @@ public class BST<T extends Comparable<T>> {
 	tree.value : 
 	findMin(tree.left);
   }
+  
+  public void deleteMin() {
+    root = deleteMin(root);
+  }
+  
+  private Node<T> deleteMin(Node<T> tree) {
+    if (tree == null) { return null; }
+    if (tree.left == null) { return tree.right; }
+        
+    tree.left = deleteMin(tree.left);
+    return tree;    
+  }
+  
   
   /**
     * Below: BST traversal methods 

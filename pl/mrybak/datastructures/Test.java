@@ -63,5 +63,9 @@ public class Test {
     bst.enumeratePostOrder();
     System.out.println("=== BFS ===");
     bst.enumerateBFS();
+    bst.delete(2);
+    System.out.println("=== BFS ===");
+    bst.enumerateBFS();
+    
   }
 }
