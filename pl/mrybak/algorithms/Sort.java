@@ -11,7 +11,7 @@ public class Sort {
   /**
     * Selection sort
     */
-  public static int[] selection(int[] a) {
+  public static int[] selectionSort(int[] a) {
       int minIndex = 0;
       int len = a.length;
       for (int i = 0; i < len; i++) {
@@ -34,7 +34,7 @@ public class Sort {
   /**
     * Insertion sort
     */
-  public static int[] insertion(int[] a) {
+  public static int[] insertionSort(int[] a) {
     int len = a.length;
     for (int i = 1; i < len; i++) {
       for (int j = i-1; (j >= 0) && (a[j+1] < a[j]); j--) {
@@ -49,10 +49,37 @@ public class Sort {
   /**
     * Merge sort
     */
-  public static int[] merge(int[] a) {
-    // TODO
+  public static int[] mergeSort(int[] a) {
+    return mergeSortRec(a, 0, a.length);
+  }
+  
+  private static int[] mergeSortRec(int[] a, int from, int to) {
+    if (from + 1 == to) return new int[]{a[from]};
+    int middle = (from + to) / 2;
+    int[] a1 = mergeSortRec(a, from, middle);
+    int[] a2 = mergeSortRec(a, middle, to);
     
-    return a;
+    return merge(a1, a2);
+  }
+  
+  private static int[] merge(int[] a, int[] b) {
+    int lenA = a.length;
+    int lenB = b.length;
+    int[] result = new int[lenA + lenB];
+    
+    for(int i = 0, j = 0; i < lenA || j < lenB;) {
+      if (i == lenA) { 
+	result[i+j] = b[j++];
+      }
+      else if (j == lenB) { 
+	result[i+j] = a[i++]; 
+      }
+      else { 
+	result[i+j] = (a[i] < b[j]) ? a[i++] : b[j++]; 
+      }
+    }    
+    
+    return result;
   }
   
   
