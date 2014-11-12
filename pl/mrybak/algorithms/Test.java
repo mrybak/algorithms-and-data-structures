@@ -11,6 +11,14 @@ public class Test {
     System.out.println("insertion sort: " + Arrays.toString(Sort.insertionSort(new int[]{3,1,6,4,8,0,2,4,5,6,12,3})));
     System.out.println("merge sort: " + Arrays.toString(Sort.mergeSort(new int[]{3,1,6,4,8,0,2,4,5,6,12,3})));
     
+    int[] sorted = Sort.mergeSort(new int[]{3,1,6,4,8,0,2,4,5,6,12,3});    
+    System.out.println("\nbinsearch for 4: " + Binsearch.search(sorted, 4)); 
+    System.out.println("binsearch for 12: " + Binsearch.search(sorted, 12)); 
+    System.out.println("binsearch for 0: " + Binsearch.search(sorted, 0)); 
+    System.out.println("binsearch for 6: " + Binsearch.search(sorted, 6));
+    System.out.println("binsearch for 7 (missing): " + Binsearch.search(sorted, 7));
+        
+    // TODO: move to datastructures.test
     UndirectedGraph<Integer> g = new UndirectedGraph<>();
     g.addNode(1, 10);
     g.addNode(2, 20);
