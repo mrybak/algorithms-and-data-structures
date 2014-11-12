@@ -65,6 +65,7 @@ public class UndirectedGraph<T> {
   /**
     * Traversal methods 
     */
+  // TODO: refactor to extract common parts from DFS and BFS
   public void traverseDFS() {
     Set<Node<T>> visited = new HashSet<>();
     LinkedList<Node<T>> stack = new LinkedList<>();
@@ -89,9 +90,28 @@ public class UndirectedGraph<T> {
     }
   }
   
-  
   public void traverseBFS() {
-    // Traverse.BFS(this);
+    Set<Node<T>> visited = new HashSet<>();
+    LinkedList<Node<T>> queue = new LinkedList<>();
+    
+    for(Node<T> node : nodes) {  // this loop ensures that *all* connected components are traversed
+      if (!visited.contains(node)) {	
+	visited.add(node);
+	queue.add(node);
+      }
+      while(!queue.isEmpty()) {
+	Node<T> currentNode = queue.poll();
+	
+	System.out.println(currentNode);  // arbitrary 'process' function can be used, here we print
+	
+	for(Node<T> neighbour : currentNode.neighbours) {
+	  if(!visited.contains(neighbour)) {
+	    visited.add(neighbour);
+	    queue.add(neighbour);
+	  }
+	}
+      }
+    }
   }
   
   

@@ -35,6 +35,9 @@ public class Test {
     System.out.println(g);
     
     System.out.println("DFS traversal: ");
-    g.traverseDFS();
+    g.traverseDFS();    
+    
+    System.out.println("\nBFS traversal: ");
+    g.traverseBFS();
   }
 }
