@@ -1,7 +1,5 @@
 package pl.mrybak.algorithms;
 
-import java.util.Arrays;
-
 /**
   * There are two approaches for implementing a tree, either using nested Node class or not.
   * Code below now uses Node class. This is for learning purposes (i.e discovering differences b'ween two approaches)
@@ -78,7 +76,7 @@ public class Sort {
 	result[i+j] = (a[i] < b[j]) ? a[i++] : b[j++]; 
       }
     }    
-    
+
     return result;
   }
   
