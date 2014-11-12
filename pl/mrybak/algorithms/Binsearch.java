@@ -14,7 +14,7 @@ public class Binsearch {
       if (from == to) {
 	return -1;
       }
-      int mid = (from + to) / 2;
+      int mid = from + (to - from) / 2;  // simple (from + to) / 2 may overflow
       if (a[mid] == elem) {
 	return mid;
       }
