@@ -1,8 +1,8 @@
 package pl.mrybak.datastructures;
 
-import pl.mrybak.algorithms.Traverse;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.LinkedList;
 
 /**
   * Undirected graph
@@ -19,6 +19,11 @@ public class UndirectedGraph<T> {
     public Node(int id, T value) {
       this.id = id;
       this.value = value;
+    }    
+    
+    @Override
+    public String toString() {
+      return this.id + " (" + this.value + ") "; 
     }
   }  
   
@@ -58,15 +63,35 @@ public class UndirectedGraph<T> {
   }    
     
   /**
-    * Traversal methods
+    * Traversal methods 
     */
   public void traverseDFS() {
-    Traverse.DFS(this);
+    Set<Node<T>> visited = new HashSet<>();
+    LinkedList<Node<T>> stack = new LinkedList<>();
+    
+    for(Node<T> node : nodes) {  // this loop ensures that *all* connected components are traversed
+      if (!visited.contains(node)) {	
+	visited.add(node);
+	stack.push(node);
+      }
+      while(!stack.isEmpty()) {
+	Node<T> currentNode = stack.pop();
+	
+	System.out.println(currentNode);  // arbitrary 'process' function can be used, here we print
+	
+	for(Node<T> neighbour : currentNode.neighbours) {
+	  if(!visited.contains(neighbour)) {
+	    visited.add(neighbour);
+	    stack.push(neighbour);
+	  }
+	}
+      }
+    }
   }
   
   
   public void traverseBFS() {
-    Traverse.BFS(this);
+    // Traverse.BFS(this);
   }
   
   
@@ -83,7 +108,10 @@ public class UndirectedGraph<T> {
 	sb.append(neighbour.id);
 	sb.append(",");
       }	
-      sb.deleteCharAt(sb.length() - 1);
+      if (node.neighbours.size() > 0) { 
+	// remove trailing comma
+	sb.deleteCharAt(sb.length() - 1);
+      }
       sb.append("]\n");
     }
     return sb.toString();
