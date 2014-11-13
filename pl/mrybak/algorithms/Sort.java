@@ -1,5 +1,10 @@
 package pl.mrybak.algorithms;
 
+import java.util.Arrays;
+
+/**
+  * Selection, insertion and quick sort are sorting passed array in-place, but they do return it for consistency
+  */
 public class Sort {
 
   /**
@@ -76,6 +81,49 @@ public class Sort {
     return result;
   }
   
+  
+  /**
+    * Quicksort
+    * @return a sorted in-place; we do return it for Sort class consistency only
+    */
+  public static int[] quickSort(int[] a) {  
+    quickSortRec(a, 0, a.length);
+    return a;  
+  }
+  
+  private static void quickSortRec(int[] a, int from, int to) {
+    if (to - from > 1) {  // do not sort if only one element left
+      int pivot = a[from], pivotIndex;
+      
+      pivotIndex = partition(a, pivot, from, to);
+      
+      quickSortRec(a, from, pivotIndex);
+      quickSortRec(a, pivotIndex + 1, to);
+    }
+  }
+  
+  /**
+    * Rearrange a in such way that it consists of three parts:
+    * A, pivot, B where:
+    * A = { e : a contains e && e <= pivot }
+    * B = { e : a contains e && e >  pivot } 
+    * @return index of pivot after rearrangement
+    */
+  private static int partition(int[] a, int pivot, int from, int to) {
+    int i = from, j = to - 1;
+    while(i < j) { 
+      // TODO: refactor
+      while(a[i] < pivot && i < to - 1) { i++; } 
+      while(a[j] >=  pivot && j > from) { j--; }
+      
+      if (i < j) { 
+	swap(a, i, j); 	
+      }      
+    }
+    // because pivot index is initially equal to parameter from, we swap it with the last element of A 
+    swap(a, from, j); 
+    return j;  // new pivot index
+  }
   
   /**
     * Utility functions
