@@ -1,9 +1,5 @@
 package pl.mrybak.algorithms;
 
-/**
-  * There are two approaches for implementing a tree, either using nested Node class or not.
-  * Code below now uses Node class. This is for learning purposes (i.e discovering differences b'ween two approaches)
-  */
 public class Sort {
 
   /**
