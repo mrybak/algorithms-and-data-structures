@@ -18,5 +18,17 @@ public class Test {
     System.out.println("binsearch for 0: " + Binsearch.search(sorted, 0)); 
     System.out.println("binsearch for 6: " + Binsearch.search(sorted, 6));
     System.out.println("binsearch for 7 (missing): " + Binsearch.search(sorted, 7));      
+    
+    FindUnion fu = new FindUnion(10);
+    fu.union(1,2); 
+    fu.union(1,3); 
+    fu.union(4,3); 
+    fu.union(6,5); 
+    System.out.println("1, 2: " + (fu.connected(1,2) ? "connected" : "not connnected"));
+    System.out.println("4, 1: " + (fu.connected(4,1) ? "connected" : "not connnected"));
+    System.out.println("3, 6: " + (fu.connected(3,6) ? "connected" : "not connnected"));
+    fu.addNode(12);
+    fu.union(12,5);
+    System.out.println("12, 6: " + (fu.connected(12,6) ? "connected" : "not connnected"));
   }
 }

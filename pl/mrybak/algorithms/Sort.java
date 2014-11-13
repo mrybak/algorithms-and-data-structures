@@ -1,7 +1,5 @@
 package pl.mrybak.algorithms;
 
-import java.util.Arrays;
-
 /**
   * Selection, insertion and quick sort are sorting passed array in-place, but they do return it for consistency
   */
@@ -113,7 +111,7 @@ public class Sort {
     int i = from, j = to - 1;
     while(i < j) { 
       // TODO: refactor
-      while(a[i] < pivot && i < to - 1) { i++; } 
+      while(a[i] < pivot && i < to-1) { i++; } 
       while(a[j] >=  pivot && j > from) { j--; }
       
       if (i < j) { 
