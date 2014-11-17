@@ -102,5 +102,20 @@ public class Test {
     
     System.out.println("\nBFS traversal: ");
     g.traverseBFS();
+    
+    WeightedDirectedGraph<Integer> dg = new WeightedDirectedGraph<>();
+    dg.addNode(1, 10);
+    dg.addNode(2, 20);
+    dg.addNode(3, 30);
+    dg.addNode(4, 40);
+    
+    dg.addEdge(1,3,25);
+    dg.addEdge(2,3,12);  
+    dg.addEdge(2,4,2);     
+    dg.addEdge(4,1,9);
+    dg.addEdge(1,4,28);
+    
+    System.out.println(dg);
+    
   }
 }
