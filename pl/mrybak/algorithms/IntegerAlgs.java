@@ -2,11 +2,14 @@ package pl.mrybak.algorithms;
 
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class IntegerAlgs {
   private int n;
+  private Map<Integer, Set<ArrayList<Integer>>> mem = new HashMap<>();   // this will be used or memoization
 
   public IntegerAlgs(int n) {
     this.n = n;
@@ -28,6 +31,10 @@ public class IntegerAlgs {
   }  
   
   private Set<ArrayList<Integer>> getSumsRec(int of) {
+    if (mem.get(of) != null) {
+      return mem.get(of);
+    }
+    
     Set<ArrayList<Integer>> result = new HashSet<>();
     
     ArrayList<Integer> self = new ArrayList<>();
@@ -48,6 +55,9 @@ public class IntegerAlgs {
 	}
       }
     }
+    
+    mem.put(of, result);
+    
     return result;
   }
 }
