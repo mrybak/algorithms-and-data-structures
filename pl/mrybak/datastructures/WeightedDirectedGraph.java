@@ -1,8 +1,7 @@
 package pl.mrybak.datastructures;
 
-import java.util.Set;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
   * Undirected graph
@@ -26,20 +25,7 @@ public class WeightedDirectedGraph<T> {
       return this.id + " (" + this.value + ") "; 
     }
   }
-  
-  private static class DirectedEdge {
-    private int weight;
-    private int from;
-    private int to;
-    
-    public DirectedEdge(int from, int to, int weight) {
-      this.weight = weight;
-      this.from = from;
-      this.to = to;
-    }
-  }
-  
-  
+ 
   
   /**
     * Add node to this graph. If node with this id already exists, overwrite value
@@ -61,7 +47,7 @@ public class WeightedDirectedGraph<T> {
     edges.add(new DirectedEdge(from, to, weight));
   }
     
-  
+       
   /**
     * Utility methods
     */
@@ -72,7 +58,22 @@ public class WeightedDirectedGraph<T> {
       }
     }
     return null;
-  }    
+  } 
+  
+  public T getValue(int nodeId) {
+    return getNode(nodeId).value;
+  }
+  
+  public OptionalInt maxNodeId() {
+    return nodes.stream().mapToInt(node -> node.id).max();
+  }
+  
+  public List<DirectedEdge> getEdgesFrom(int id) {      
+    List<DirectedEdge> result = edges.stream()
+      .filter(e -> e.from() == id)
+      .collect(Collectors.toList());   // yeah
+    return result;
+  }
   
   
   @Override 
@@ -85,10 +86,10 @@ public class WeightedDirectedGraph<T> {
       sb.append(") -> [");
       
       for(DirectedEdge edge : edges) {
-	if (edge.from == node.id) {
-	  sb.append(edge.to);
+	if (edge.from() == node.id) {
+	  sb.append(edge.to());
 	  sb.append("( w");
-	  sb.append(edge.weight);
+	  sb.append(edge.weight());
 	  sb.append("),");
 	}	
       }	

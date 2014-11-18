@@ -1,5 +1,7 @@
 package pl.mrybak.datastructures;
 
+import pl.mrybak.algorithms.ShortestPath;
+
 public class Test {
   public static void main(String[] args) {
     
@@ -110,12 +112,17 @@ public class Test {
     dg.addNode(4, 40);
     
     dg.addEdge(1,3,25);
-    dg.addEdge(2,3,12);  
+    dg.addEdge(2,3,62);
     dg.addEdge(2,4,2);     
     dg.addEdge(4,1,9);
     dg.addEdge(1,4,28);
     
     System.out.println(dg);
+    
+    ShortestPath sp = new ShortestPath(2, dg);
+    // TODO: more tests
+    System.out.println(sp.getPathLength(1));
+    System.out.println(sp.getPathLength(3));
     
   }
 }
