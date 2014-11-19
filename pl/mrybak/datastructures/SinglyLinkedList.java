@@ -1,152 +1,144 @@
 package pl.mrybak.datastructures;
 
 public class SinglyLinkedList<T> {
-  
-  private Node<T> head;
-  private int size;
-  
-  
-  
-  private static class Node<T> {
-    private T value;
-    private Node<T> next;
-    
-    Node(T value) {
-      this.value = value;
+
+    private Node<T> head;
+    private int size;
+
+
+    private static class Node<T> {
+        private T value;
+        private Node<T> next;
+
+        Node(T value) {
+            this.value = value;
+        }
     }
-  }
-  
-  
-  
-  /**
-   * Appends elem to the end of this list 
-   */
-  public void append(T elem) {
-    Node<T> newNode = new Node<T>(elem);
-      if (empty()) {
-      head = newNode;
+
+
+    /**
+     * Appends elem to the end of this list
+     */
+    public void append(T elem) {
+        Node<T> newNode = new Node<T>(elem);
+        if (empty()) {
+            head = newNode;
+        } else {
+            Node<T> lastNode = head;
+
+            while (lastNode.next != null) {
+                lastNode = lastNode.next;
+            }
+            lastNode.next = newNode;
+        }
+        size++;
     }
-    else {
-      Node<T> lastNode = head;
-    
-      while (lastNode.next != null) {
-	lastNode = lastNode.next;
-      }
-      lastNode.next = newNode;
+
+    /**
+     * Push onto stack represented by this list
+     */
+    public void push(T elem) {
+        Node<T> newNode = new Node<T>(elem);
+        newNode.next = head;
+        head = newNode;
+        size++;
     }
-    size++;
-  }   
-  
-  /**
-   * Push onto stack represented by this list
-   */
-  public void push(T elem) {
-    Node<T> newNode = new Node<T>(elem);
-    newNode.next = head;
-    head = newNode;
-    size++;
-  }
-  
-  /**
-   * Pop from stack represented by this list
-   */ 
-  public T pop() {
-    T value = head.value;
-    head = head.next;
-    size--;
-    return value;
-  } 
-  
-  
-  private boolean equal(T value, Object o) {
-    return value == null ? o == null : value.equals(o);
-  }
-  
-  
-  
-  public boolean contains(Object o) {
-    if (!empty()) {
-      Node<T> node = head;
-      while (node != null) {
-	if (equal(node.value, o)) {
-	  return true;
-	}
-	node = node.next;
-      }
+
+    /**
+     * Pop from stack represented by this list
+     */
+    public T pop() {
+        T value = head.value;
+        head = head.next;
+        size--;
+        return value;
     }
-    return false;
-  }
-  
-  
-  public T get(int index) {
-    if (empty() || index < 0 || index >= size) {
-      throw new IndexOutOfBoundsException();
+
+
+    private boolean equal(T value, Object o) {
+        return value == null ? o == null : value.equals(o);
     }
-    
-    Node<T> node = head;
-    T result = null;
-    while (node != null) {
-      if (index-- == 0) {
-	result = node.value;
-      }
-      node = node.next;
-    }    
-    return result;
-  }
-  
-  
-  
-  public void remove(Object o) {
-    if (!empty()) {
-      Node<T> node = head;
-      while (node != null) {
-	if (node.next != null && equal(node.next.value, o)) { 
-	  Node<T> toBeRemoved = node.next;
-	  node.next = toBeRemoved.next;
-	  size--;
-	  return;
-	}
-	node = node.next;
-      }
+
+
+    public boolean contains(Object o) {
+        if (!empty()) {
+            Node<T> node = head;
+            while (node != null) {
+                if (equal(node.value, o)) {
+                    return true;
+                }
+                node = node.next;
+            }
+        }
+        return false;
     }
-  }
-  
-  
-  
-  public boolean empty() {
-    return size == 0;
-  }
-  
-  
-  
-  public int size() {
-    return size;
-  }
-  
-  
-  
-  public void clear() {
-    size = 0;
-    head = null;
-  }
-  
-  
-  @Override
-  public String toString() {
-    StringBuffer sb = new StringBuffer();
-    sb.append(getClass().getName());
-    sb.append(" {");
-    Node<T> node = head;
-    while (node != null) {
-      sb.append(node.value);
-      sb.append(", ");
-      node = node.next;
+
+
+    public T get(int index) {
+        if (empty() || index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        Node<T> node = head;
+        T result = null;
+        while (node != null) {
+            if (index-- == 0) {
+                result = node.value;
+            }
+            node = node.next;
+        }
+        return result;
     }
-    if (!empty()) { 
-      sb.delete(sb.length() - 2, sb.length());  // remove trailing comma&space
+
+
+    public void remove(Object o) {
+        if (!empty()) {
+            Node<T> node = head;
+            while (node != null) {
+                if (node.next != null && equal(node.next.value, o)) {
+                    Node<T> toBeRemoved = node.next;
+                    node.next = toBeRemoved.next;
+                    size--;
+                    return;
+                }
+                node = node.next;
+            }
+        }
     }
-    sb.append("}");
-    
-    return sb.toString();
-  }
+
+
+    public boolean empty() {
+        return size == 0;
+    }
+
+
+    public int size() {
+        return size;
+    }
+
+
+    public void clear() {
+        size = 0;
+        head = null;
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(getClass().getName());
+        sb.append(" {");
+        Node<T> node = head;
+        while (node != null) {
+            sb.append(node.value);
+            sb.append(", ");
+            node = node.next;
+        }
+        if (!empty()) {
+            sb.delete(sb.length() - 2, sb.length());  // remove trailing comma&space
+        }
+        sb.append("}");
+
+        return sb.toString();
+    }
 }
