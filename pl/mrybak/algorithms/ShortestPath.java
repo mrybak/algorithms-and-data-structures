@@ -23,7 +23,7 @@ public class ShortestPath {
     public ShortestPath(int source, WeightedDirectedGraph graph) {
         this.G = graph;
         this.s = source;
-        int numberOfVertices = G.maxNodeId().getAsInt();
+        int numberOfVertices = G.maxNodeId().orElse(0);
         // those two below should actually check for max vertex id instead of number of vertices;
         this.distTo = new int[numberOfVertices + 1];
         this.edgeTo = new DirectedEdge[numberOfVertices + 1];
@@ -40,7 +40,7 @@ public class ShortestPath {
      * Shortest paths API
      */
     public int getPathLength(int toNode) {
-        int numberOfVertices = G.maxNodeId().getAsInt();
+        int numberOfVertices = G.maxNodeId().orElse(0);
 
 
         for (int i = 0; i <= numberOfVertices; i++) {
