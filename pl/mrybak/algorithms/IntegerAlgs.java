@@ -55,4 +55,34 @@ public class IntegerAlgs {
 
         return result;
     }
+
+    public static boolean has3SummingToZero(int[] a) {
+        if (a.length < 3) {
+            return false;
+        }
+
+        Map<Integer, Integer> arrElems = new HashMap<>(a.length);  // we'll use conjugates as keys and indices as values
+        int sum;
+
+        for (int i = 0; i < a.length; i++) {
+            arrElems.put(-a[i], i);
+        }
+
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < a.length; j++) {
+                sum = a[i] + a[j];
+                if (i != j &&
+                    arrElems.containsKey(sum) &&
+                    arrElems.get(sum) != i &&
+                    arrElems.get(sum) != j
+                )  {
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
 }
