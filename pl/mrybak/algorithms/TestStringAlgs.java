@@ -21,5 +21,9 @@ public class TestStringAlgs {
         Set<ArrayList<String>> splitted = StringAlgs.splitToWords("domainblockedit", dict);
 
         //splitted.stream().forEach(System.out::println);
+
+
+        System.out.println(StringAlgs.longestIncreasingSequenceLength(new int[]{5,3,4,7,1,8,9}));
+        System.out.println(StringAlgs.longestIncreasingSequenceLength(new int[]{}));
     }
 }

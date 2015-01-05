@@ -6,6 +6,37 @@ import java.util.*;
 // TODO: big refactoring
 public class StringAlgs {
 
+    /*
+        classical LIS problem solved with dynamic programming
+     */
+    public static int longestIncreasingSequenceLength(int[] a) {
+        if (a.length == 0) { return 0; }
+
+        int[] lisHere = new int[a.length];  // LIS ending at given index of a
+        int maxHere;                    // temp variable for computing the above
+        lisHere[0] = 1;   // initialization
+
+
+        for (int i = 1; i < a.length; i++) {
+            maxHere = 1;
+            for (int j = 0; j < i; j++) {
+                if (a[i] > a[j]) {
+                    maxHere = Math.max(maxHere, lisHere[j]+1);
+                }
+            }
+            lisHere[i] = maxHere;
+        }
+               
+        int result = 0;
+        for (int lisLength : lisHere) {
+            if (lisLength > result) {
+                result = lisLength;
+            }
+        }
+
+        return result;
+    }
+
     public static Set<ArrayList<String>> splitToWords(String input, Set<String> dict) {
         System.out.println("Splitting: " + input);
         System.out.println("==========================================");
