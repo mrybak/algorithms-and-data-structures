@@ -1,7 +1,7 @@
 package pl.mrybak.algorithms;
 
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class TestStringAlgs {
@@ -18,11 +18,14 @@ public class TestStringAlgs {
         dict.add("in");
         dict.add("locked");
 
-        Set<ArrayList<String>> splitted = StringAlgs.splitToWords("domainblockedit", dict);
+        Set<List<String>> splitted = StringAlgs.splitToWords("domainblockedit", dict);
 
         //splitted.stream().forEach(System.out::println);
 
 
+        System.out.println(StringAlgs.longestIncreasingSequence(new int[]{5, 3, 4, 7, 1, 8, 9}));
+        System.out.println(StringAlgs.longestIncreasingSequence(new int[]{}));
+        System.out.println(StringAlgs.longestIncreasingSequence(new int[]{6,3,8,5,2,5,78,34,2,2,1,4,7,8,4,2}));
         System.out.println(StringAlgs.longestIncreasingSequenceLength(new int[]{5,3,4,7,1,8,9}));
         System.out.println(StringAlgs.longestIncreasingSequenceLength(new int[]{}));
     }

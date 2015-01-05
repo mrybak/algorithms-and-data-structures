@@ -6,38 +6,60 @@ import java.util.*;
 // TODO: big refactoring
 public class StringAlgs {
 
+
     /*
         classical LIS problem solved with dynamic programming
      */
-    public static int longestIncreasingSequenceLength(int[] a) {
-        if (a.length == 0) { return 0; }
+    public static List<Integer> longestIncreasingSequence(int[] a) {
+        List<Integer> result = new ArrayList<Integer>();
+        if (a.length == 0) { return result; }
 
-        int[] lisHere = new int[a.length];  // LIS ending at given index of a
-        int maxHere;                    // temp variable for computing the above
-        lisHere[0] = 1;   // initialization
+        int[] lisLengthHere = new int[a.length];  // LIS ending at given index of a
+        int[] lisPrevElem = new int[a.length];    // index of previous element of LIS ending here
+        int maxLenHere;                    // temp variable for computing the above
+        int prevElemHere;                    // temp variable for computing the above
+        lisLengthHere[0] = 1;   // initialization
 
 
         for (int i = 1; i < a.length; i++) {
-            maxHere = 1;
+            maxLenHere = 1;     // just this element
+            prevElemHere = -1;  // no previous element right now
             for (int j = 0; j < i; j++) {
                 if (a[i] > a[j]) {
-                    maxHere = Math.max(maxHere, lisHere[j]+1);
+                    if (lisLengthHere[j]+1 > maxLenHere) {
+                        maxLenHere = lisLengthHere[j]+1;  // update max
+                        prevElemHere = j;                 // update prev
+                    }
                 }
             }
-            lisHere[i] = maxHere;
+            lisLengthHere[i] = maxLenHere;
+            lisPrevElem[i] = prevElemHere;
         }
-               
-        int result = 0;
-        for (int lisLength : lisHere) {
-            if (lisLength > result) {
-                result = lisLength;
+
+        int maxElem = 0;
+        int maxElemIndex = -1;
+        for (int i = 0; i < lisLengthHere.length; i++) {
+            if (lisLengthHere[i] > maxElem) {
+                maxElem = lisLengthHere[i];
+                maxElemIndex = i;
             }
         }
+        while (maxElemIndex != -1) {
+            result.add(a[maxElemIndex]);
+            maxElemIndex = lisPrevElem[maxElemIndex];
+        }
+
+        Collections.reverse(result);
 
         return result;
     }
 
-    public static Set<ArrayList<String>> splitToWords(String input, Set<String> dict) {
+
+    public static int longestIncreasingSequenceLength(int[] a) {
+        return longestIncreasingSequence(a).size();
+    }
+
+    public static Set<List<String>> splitToWords(String input, Set<String> dict) {
         System.out.println("Splitting: " + input);
         System.out.println("==========================================");
         int len = input.length();
@@ -82,14 +104,14 @@ public class StringAlgs {
     }
 
     private static void printResults(int len, Map<Integer, List<String>> wordsAt) {
-        Set<ArrayList<String>> results = getResultsRec(0, len, wordsAt);
-        for (ArrayList<String> result : results) {
+        Set<List<String>> results = getResultsRec(0, len, wordsAt);
+        for (List<String> result : results) {
             System.out.println(result);
         }
     }
 
-    private static Set<ArrayList<String>> getResultsRec(int from, int len, Map<Integer, List<String>> wordsAt) {
-        Set<ArrayList<String>> result = new HashSet<>();
+    private static Set<List<String>> getResultsRec(int from, int len, Map<Integer, List<String>> wordsAt) {
+        Set<List<String>> result = new HashSet<>();
 
         if (from == len) {
             ArrayList<String> empty = new ArrayList<>();
@@ -101,8 +123,8 @@ public class StringAlgs {
         List<String> words = wordsAt.get(from);
 
         for (String word : words) {
-            Set<ArrayList<String>> suffixes = getResultsRec(from + word.length(), len, wordsAt);
-            for (ArrayList<String> suffix : suffixes) {
+            Set<List<String>> suffixes = getResultsRec(from + word.length(), len, wordsAt);
+            for (List<String> suffix : suffixes) {
                 ArrayList<String> sentence = new ArrayList<>();
                 sentence.add(word);
                 sentence.addAll(suffix);
