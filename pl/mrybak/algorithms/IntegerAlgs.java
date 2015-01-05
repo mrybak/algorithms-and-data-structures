@@ -1,5 +1,7 @@
 package pl.mrybak.algorithms;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
+
 import java.util.*;
 
 public class IntegerAlgs {
@@ -83,6 +85,25 @@ public class IntegerAlgs {
         }
 
         return false;
+    }
+
+    public static int nthFib(int n) {
+        if (n <= 0) {
+            throw new IllegalArgumentException();
+        }
+        if (n <= 2) {
+            return 1;
+        }
+
+        int f1 = 1, f2 = 1, temp;
+
+        for (int i = 3; i <= n; i++) {
+            temp = f1 + f2;
+            f1 = f2;
+            f2 = temp;
+        }
+
+        return f2;
     }
 
 }
