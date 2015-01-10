@@ -6,6 +6,18 @@ import java.util.*;
 // TODO: big refactoring
 public class StringAlgs {
 
+    public static String toLowerCase(String s) {
+        char[] chars = s.toCharArray();
+
+        for (int i = 0; i < chars.length; i++) {
+            char c = chars[i];
+            if (c >= 'A' && c <= 'Z') {
+                chars[i] -= ('A' - 'a');
+            }
+        }
+
+        return new String(chars);
+    }
 
     /*
         classical LIS problem solved with dynamic programming
@@ -54,10 +66,10 @@ public class StringAlgs {
         return result;
     }
 
-
     public static int longestIncreasingSequenceLength(int[] a) {
         return longestIncreasingSequence(a).size();
     }
+
 
     public static Set<List<String>> splitToWords(String input, Set<String> dict) {
         System.out.println("Splitting: " + input);

@@ -25,8 +25,11 @@ public class TestStringAlgs {
 
         System.out.println(StringAlgs.longestIncreasingSequence(new int[]{5, 3, 4, 7, 1, 8, 9}));
         System.out.println(StringAlgs.longestIncreasingSequence(new int[]{}));
-        System.out.println(StringAlgs.longestIncreasingSequence(new int[]{6,3,8,5,2,5,78,34,2,2,1,4,7,8,4,2}));
+        System.out.println(StringAlgs.longestIncreasingSequence(new int[]{6, 3, 8, 5, 2, 5, 78, 34, 2, 2, 1, 4, 7, 8, 4, 2}));
         System.out.println(StringAlgs.longestIncreasingSequenceLength(new int[]{5,3,4,7,1,8,9}));
         System.out.println(StringAlgs.longestIncreasingSequenceLength(new int[]{}));
+
+        System.out.println(StringAlgs.toLowerCase("ASDasd"));
+        System.out.println(StringAlgs.toLowerCase("asdDDEd"));
     }
 }
