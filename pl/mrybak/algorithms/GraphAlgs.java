@@ -96,4 +96,125 @@ public class GraphAlgs {
     private static boolean inBounds(int x, int y) {
         return x >= 0 && x < ROWS && y >= 0 && y < COLS;
     }
+
+
+    /** ======================================================================================== */
+
+    /**
+     * Given a board consisting of empty space, walls, and the starting positions of two players A and B,
+     * determine the minimum number of turns it will take for players A and B to switch positions on the board.
+     *
+     * During a turn, one or both players may take a step. A step is defined as a unit movement up, down, left, right, or in any of the four diagonals.
+     * Players may not step into walls or off the board. Players may never share the same square at the end of a turn.
+     * Players may not cross paths during a turn. Crossing paths occurs when players A and B switch positions in a single turn.
+     * For example, assume player A is in the upper left corner of the board, and player B is in the square immediately to his right.
+     * Player A may not move right while player B moves left, since they would be passing each other.
+     * Player A can, however, move right if player B moves in any other direction.
+     *
+     * You will be given a String[] board, representing the game board.
+     * board will contain exactly one 'A' and exactly one 'B'; each other character will be either '.' (empty space), or 'X' (a wall).
+     * Your method should return the minimum number of turns necessary for players A and B to switch positions, or -1 if this is impossible.
+     *
+     * @see: http://community.topcoder.com/stat?c=problem_statement&pm=1110
+     *
+     * TODO: refactor
+     *
+     * We will be using BFS on a graph of states, which are represented using GameState class
+     */
+    static class GameState {
+        public int aX, aY, bX, bY; // A and B's positions
+        public int turns;  // total turns to this state
+
+        public GameState(int aX, int aY, int bX, int bY, int turns) {
+            this.aX = aX;
+            this.aY = aY;
+            this.bX = bX;
+            this.bY = bY;
+            this.turns = turns;
+        }
+    }
+
+    public static int minTurns(String[] board) {
+        final int ROWS = board.length;
+        final int COLS = board[0].length();
+
+        boolean[][][][] visited = new boolean[ROWS][COLS][ROWS][COLS];
+
+        Deque<GameState> q = new LinkedList<>();
+        GameState start = findInitialGameState(board, ROWS, COLS);
+        visited = pushToQueue(q, visited, start);
+
+        while (!q.isEmpty()) {
+            // shit, spent half an hour debugging this... so I've actually used .pop() and .push() instead of poll() and offer() which caused my "BFS" to turn into DFS...
+            GameState top = q.poll();
+
+            if (areOpposite(top, start)) {
+                return top.turns;
+            }
+
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
+                    for (int k = -1; k <= 1; k++) {
+                        for (int l = -1; l <= 1; l++) {
+                            GameState afterTurn = new GameState(
+                                    top.aX + i,
+                                    top.aY + j,
+                                    top.bX + k,
+                                    top.bY + l,
+                                    top.turns + 1
+                            );
+
+                            if (ABinBounds(afterTurn, ROWS, COLS) && !AorBonX(afterTurn, board) && !ABinSamePlace(afterTurn) && !areOpposite(top, afterTurn)) {
+                                visited = pushToQueue(q, visited, afterTurn);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return -1;  // no path found
+    }
+
+    private static boolean AorBonX(GameState s, String[] board) {
+        return board[s.aX].charAt(s.aY) == 'X' || board[s.bX].charAt(s.bY) == 'X';
+    }
+
+    private static boolean ABinSamePlace(GameState s) {
+        return s.aX == s.bX && s.aY == s.bY;
+    }
+
+    private static boolean ABinBounds(GameState s, int rows, int cols) {
+        return !(s.aX < 0 || s.aX >= rows) && !(s.aY < 0 || s.aY >= cols) && !(s.bX < 0 || s.bX >= rows) && !(s.bY < 0 || s.bY >= cols);
+    }
+
+
+
+    private static boolean[][][][] pushToQueue(Deque<GameState> q, boolean[][][][] visited, GameState s) {
+        if(!visited[s.aX][s.aY][s.bX][s.bY]) {
+            q.offer(s);
+            visited[s.aX][s.aY][s.bX][s.bY] = true;
+        }
+        return visited;
+    }
+
+    private static boolean areOpposite(GameState s1, GameState s2) {
+        return s1.aX == s2.bX && s1.aY == s2.bY && s1.bX == s2.aX && s1.bY == s2.aY;
+    }
+
+    private static GameState findInitialGameState(String[] board, int ROWS, int COLS) {
+        int aX = 0, aY = 0, bX = 0, bY = 0;
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLS; j++) {
+                if (board[i].charAt(j) == 'A') {
+                    aX = i; aY = j;
+                }
+                if (board[i].charAt(j) == 'B') {
+                    bX = i; bY = j;
+                }
+            }
+        }
+
+        return new GameState(aX, aY, bX, bY, 0);
+    }
+
 }
