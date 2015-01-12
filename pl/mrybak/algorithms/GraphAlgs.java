@@ -217,4 +217,98 @@ public class GraphAlgs {
         return new GameState(aX, aY, bX, bY, 0);
     }
 
+    /** ======================================================================================== */
+
+    /**
+     * The KiloMan series has always had a consistent pattern:
+     * you start off with one (rather weak) default weapon, and then defeat some number of bosses.
+     * When you defeat a boss, you then acquire his weapon, which can then be used against other bosses, and so on.
+     * Usually, each boss is weak against some weapon acquired from another boss, so there is a recommended order in which to tackle the bosses.
+     * You have been playing for a while and wonder exactly how efficient you can get at playing the game.
+     * Your metric for efficiency is the total number of weapon shots fired to defeat all of the bosses.
+     *
+     * You have a chart in front of you detailing how much damage each weapon does to each boss per shot, and you know how much health each boss has.
+     * When a boss's health is reduced to 0 or less, he is defeated.
+     * You start off only with the Kilo Buster, which does 1 damage per shot to any boss.
+     * The chart is represented as a String[],
+     * with the ith element containing N one-digit numbers ('0'-'9'),
+     * detailing the damage done to bosses 0, 1, 2, ..., N-1 by the weapon obtained from boss i,
+     * and the health is represented as a int[], with the ith element representing the amount of health that boss i has.
+     *
+     * Given a String[] damageChart representing all the weapon damages,
+     * and a int[] bossHealth showing how much health each boss has,
+     * your method should return an int which is the least number of shots that need to be fired to defeat all of the bosses.
+     *
+     *
+     * @see: http://community.topcoder.com/stat?c=problem_statement&pm=2288&rd=4725
+     *
+     * TODO: refactor all algorithms here into separate classes as this is becoming a total mess
+     *
+     * We will find shortest path through a graph of game states, which are represented by the State class below.
+     * We start without any weapons and finish when we collect all weapons, ie. defeat all bosses
+     */
+    static class State implements Comparable<State> {
+        public int weapons;  // in range 0-2^15 (as there is a maximum of 15 weapons)
+        public int shots;    // shots fired until now
+
+        public State(int weapons, int shots) {
+            this.weapons = weapons;
+            this.shots = shots;
+        }
+
+        @Override
+        public int compareTo(State o) {
+            if (this.shots < o.shots) return -1;
+            if (this.shots > o.shots) return  1;
+            return 0;
+        }
+    }
+
+    public static int leastShots(String[] damageChart, int[] bossHealth) {
+        boolean[] visited = new boolean[1 << 15];
+        int maxWeapons = damageChart.length;
+
+        PriorityQueue<State> pq = new PriorityQueue<>();
+        pq.offer(new State(0,0));  // push start node into queue
+
+        while (!pq.isEmpty()) {
+            State top = pq.poll();
+
+            // check if this state is our finish state, ie. all ones
+            if (top.weapons == (1 << maxWeapons) - 1) {
+                return top.shots;
+            }
+
+            // if this state was already visited, skip
+            if (visited[top.weapons]) {
+                continue;
+            }
+
+            visited[top.weapons] = true;
+
+            // now, iterate over all weapons that we have and all the bosses in order to find next most efective kill
+            for (int i = 0; i <  maxWeapons; i++) {
+                // if we have visited this boss already (ie. ith bit is set to 1), skip
+                if ((top.weapons >> i & 1) != 0) {
+                    continue;
+                }
+                // boss is not visited; let's check which weapon kills him with least shots
+                int minShots = bossHealth[i];  // initialize to boss health, as we always have at least Kilo Buster
+                for (int j = 0; j < damageChart.length; j++) {
+                    int damageToThisBoss = damageChart[j].charAt(i) - '0';  // convert char to int
+                    // if we have this weapon and it does a non-zero damage to given boss...
+                    if (((top.weapons >> j) & 1) == 1 && damageToThisBoss != 0) {
+                        // compute minimum numbers of shot with this weapon
+                        int shotsNeeded = bossHealth[i] / damageToThisBoss;
+                        if (bossHealth[i] % damageToThisBoss != 0) shotsNeeded++;   // padding
+                        if (shotsNeeded < minShots) minShots = shotsNeeded;
+                    }
+                }
+                // add state after this boss is defeated
+                pq.offer(new State(top.weapons | (1 << i), top.shots + minShots));
+            }
+        }
+
+        return -1;  // we should never arrive here; could throw exception too
+    }
 }

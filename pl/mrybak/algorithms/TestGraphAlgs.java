@@ -15,5 +15,8 @@ public class TestGraphAlgs {
                 ".....XXXXX....."
                 });
         System.out.println(result);
+
+        result = GraphAlgs.leastShots(new String[]{"070","500","140"}, new int[]{150,150,150});
+        System.out.println(result);
     }
 }
