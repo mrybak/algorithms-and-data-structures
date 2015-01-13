@@ -40,6 +40,7 @@ public class TeamBuilder {
         for (int k = 0; k < paths.length; k++) {
             for (int i = 0; i < paths.length; i++) {
                 for (int j = 0; j < paths.length; j++) {
+                    // either its possible to go via k (if both i,k and k,j are connected) or directly
                     adj[i][j] = adj[i][j] || (adj[i][k] && adj[k][j]);
                 }
             }

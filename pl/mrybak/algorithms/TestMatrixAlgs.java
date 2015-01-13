@@ -16,5 +16,7 @@ public class TestMatrixAlgs {
                         {5,1,9,8,7,0,0,3}
                 }
         ));
+
+        System.out.println(MatrixAlgs.maxContinuousSum(new int[]{-2,-3,3,4,1,-4,5,-2,0,0,-7,3,8}));
     }
 }

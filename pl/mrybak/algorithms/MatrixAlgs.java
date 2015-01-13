@@ -25,4 +25,20 @@ public class MatrixAlgs {
         if (j == 0) return m[i][j] + sums[i-1][j];
         return m[i][j] + Math.max(sums[i-1][j], sums[i][j-1]);
     }
+
+    /**
+     * Auxiliary function to understand Kadane's algorithm better
+     */
+    public static int maxContinuousSum(int[] arr) {
+        int maxSumSoFar = 0, maxSumEndingHere = 0;
+
+        for (int elem : arr) {
+            maxSumEndingHere = Math.max(maxSumEndingHere + elem, 0);
+            if (maxSumEndingHere > maxSumSoFar) {
+                maxSumSoFar = maxSumEndingHere;
+            }
+        }
+
+        return maxSumSoFar;
+    }
 }
