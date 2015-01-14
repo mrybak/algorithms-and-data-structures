@@ -311,4 +311,24 @@ public class GraphAlgs {
 
         return -1;  // we should never arrive here; could throw exception too
     }
+
+    public static void topoSort(int[][] adjMatrix) {
+        Deque<Integer> stack = new ArrayDeque<>();
+        boolean[] visited = new boolean[adjMatrix.length];
+        for (int i = 0; i < adjMatrix.length; i++) {
+            topoSortRec(adjMatrix, visited, stack, i);
+        }
+        System.out.println(stack.toString());
+    }
+
+    private static void topoSortRec(int[][] adjMatrix, boolean[] visited, Deque<Integer> stack, int startNode) {
+        if (visited[startNode]) {
+            return;
+        }
+        visited[startNode] = true;
+        for (int neighbour : adjMatrix[startNode]) {
+                topoSortRec(adjMatrix, visited, stack, neighbour);
+        }
+        stack.push(startNode);
+    }
 }

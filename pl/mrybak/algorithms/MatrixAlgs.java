@@ -51,7 +51,7 @@ public class MatrixAlgs {
      * Return subarray with maximum sum;
      * We assume matrix is nonempty and no column and no row consists of negative integers only
      *
-     * TODO: comments & clarification 
+     * TODO: comments & clarification
      */
     public static int[][] maxSumSubarray(int[][] m) {
         int rows = m.length;

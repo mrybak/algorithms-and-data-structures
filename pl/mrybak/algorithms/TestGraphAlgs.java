@@ -18,5 +18,14 @@ public class TestGraphAlgs {
 
         result = GraphAlgs.leastShots(new String[]{"070","500","140"}, new int[]{150,150,150});
         System.out.println(result);
+
+        GraphAlgs.topoSort(new int[][]{
+                {},    // vertex 0
+                {},    // vertex 1
+                {3},   // vertex 2
+                {1},   // vertex 3
+                {0,1}, // vertex 4
+                {0,2}  // vertex 5
+        });
     }
 }
