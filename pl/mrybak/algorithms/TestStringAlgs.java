@@ -31,5 +31,8 @@ public class TestStringAlgs {
 
         System.out.println(StringAlgs.toLowerCase("ASDasd"));
         System.out.println(StringAlgs.toLowerCase("asdDDEd"));
+
+        System.out.println(StringAlgs.longestCommonSubsequence("palantir", "interview"));
+        System.out.println(StringAlgs.longestCommonSubsequence("XMJYAUZ", "AMZJAWXU"));
     }
 }

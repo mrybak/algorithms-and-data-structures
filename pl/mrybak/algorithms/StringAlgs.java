@@ -24,7 +24,9 @@ public class StringAlgs {
      */
     public static List<Integer> longestIncreasingSequence(int[] a) {
         List<Integer> result = new ArrayList<Integer>();
-        if (a.length == 0) { return result; }
+        if (a.length == 0) {
+            return result;
+        }
 
         int[] lisLengthHere = new int[a.length];  // LIS ending at given index of a
         int[] lisPrevElem = new int[a.length];    // index of previous element of LIS ending here
@@ -38,8 +40,8 @@ public class StringAlgs {
             prevElemHere = -1;  // no previous element right now
             for (int j = 0; j < i; j++) {
                 if (a[i] > a[j]) {
-                    if (lisLengthHere[j]+1 > maxLenHere) {
-                        maxLenHere = lisLengthHere[j]+1;  // update max
+                    if (lisLengthHere[j] + 1 > maxLenHere) {
+                        maxLenHere = lisLengthHere[j] + 1;  // update max
                         prevElemHere = j;                 // update prev
                     }
                 }
@@ -76,7 +78,7 @@ public class StringAlgs {
         System.out.println("==========================================");
         int len = input.length();
 
-        boolean[] wordStart = new boolean[len+1];
+        boolean[] wordStart = new boolean[len + 1];
         wordStart[len] = true;   // set character right after this string to true
 
         Map<Integer, List<String>> wordsAt = new HashMap<>();
@@ -87,7 +89,7 @@ public class StringAlgs {
             for (int j = i + 1; j <= len; j++) {
                 // if word in dict
                 String word = input.substring(i, j);
-                if(dict.contains(word)) {
+                if (dict.contains(word)) {
                     //  if there is already a word or end of input right behind this word
                     wordStart[i] = wordStart[i] || wordStart[j];
                     if (wordStart[i]) {
@@ -105,8 +107,8 @@ public class StringAlgs {
         // TODO: if instead of binary info we store list of lengths, it should be available later
 
         for (int i = 0; i < len; i++) {
-        //    System.out.println(i + ": " + wordStart[i]);
-        //    System.out.println(wordsAt.get(i));
+            //    System.out.println(i + ": " + wordStart[i]);
+            //    System.out.println(wordsAt.get(i));
         }
 
         printResults(len, wordsAt);
@@ -145,5 +147,30 @@ public class StringAlgs {
         }
 
         return result;
+    }
+
+    /**
+     * classic LCS problem solved with dynamic programming
+     */
+    public static int longestCommonSubsequence(String s1, String s2) {
+        int len1 = s1.length();
+        int len2 = s2.length();
+
+        if (len1 == 0 || len2 == 0) {
+            return 0;
+        }
+        // dynamic programming memo
+        int[][] temp = new int[len1 + 1][len2 + 1];
+
+        for (int i = 1; i <= len1; i++) {
+            for (int j = 1; j <= len2; j++) {
+                temp[i][j] = (s1.charAt(i-1) == s2.charAt(j-1)) ?
+                        temp[i - 1][j - 1] + 1 :
+                        Math.max(temp[i - 1][j], temp[i][j - 1]);
+
+            }
+        }
+
+        return temp[len1][len2];
     }
 }
